@@ -19,7 +19,7 @@ namespace OPCUA_Server
             System.Timers.Timer myTimer = new System.Timers.Timer();
 
             // Set the interval to 5 seconds (5000 milliseconds)
-            myTimer.Interval = 5000;
+            myTimer.Interval = 60000;
 
             // Enable the timer
             myTimer.Enabled = true;
@@ -43,6 +43,17 @@ namespace OPCUA_Server
             MyEvent?.Invoke(this, e);
         }
 
-        public bool IsBusy { get; set; }
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get
+            {
+                return _isBusy;
+            }
+            set
+            {
+                _isBusy = value;
+            }
+        }
     }
 }

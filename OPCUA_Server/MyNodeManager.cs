@@ -50,7 +50,7 @@ namespace OPCUA_Server
             base.CreateAddressSpace(externalReferences);
 
             var root = FindNodeInAddressSpace(84);
-            
+
 
             // Create a folder
             FolderState folder = new FolderState(root)
@@ -123,12 +123,26 @@ namespace OPCUA_Server
                     }
                 }
 
-       
+
             }
             // Notify any OPC UA clients subscribed to this variable
             // This typically involves calling a method to trigger the notification
         }
 
-     
+        public override void Write(
+           OperationContext context,
+           IList<WriteValue> nodesToWrite,
+           IList<ServiceResult> errors)
+        {
+
+            foreach(var node in nodesToWrite)
+            {
+                if (node.NodeId.Equals(_isBusyVariable.NodeId))
+                {
+                    _hardware.IsBusy = (bool)node.Value.Value;
+                }
+            }
+
+        }
     }
 }
